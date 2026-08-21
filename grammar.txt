@@ -1,0 +1,8 @@
+6
+Stmt
+Stmt -> ID ASSIGN Expr SEMICOLON
+Expr -> Term ExprP
+ExprP -> PLUS Term ExprP | MINUS Term ExprP | eps
+Term -> Factor TermP
+TermP -> MULTIPLY Factor TermP | DIVIDE Factor TermP | eps
+Factor -> LPAREN Expr RPAREN | ID | NUM

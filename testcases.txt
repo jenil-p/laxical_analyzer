@@ -1,0 +1,96 @@
+Test Case 1: a = b + c * d;
+
+Output:
+
+-----------------------------------------
+Token Stream :
+ID ASSIGN ID PLUS ID MULTIPLY ID SEMICOLON $ 
+-----------------------------------------
+
+
+Parsing Started....
+Stack                                             Input                                             Action
+----------------------------------------------------------------------------------------------------------------------------------
+$ Stmt                                            ID ASSIGN ID PLUS ID MULTIPLY ID SEMICOLON $      Stmt -> ID ASSIGN Expr SEMICOLON 
+$ SEMICOLON Expr ASSIGN ID                        ID ASSIGN ID PLUS ID MULTIPLY ID SEMICOLON $      Match ID
+$ SEMICOLON Expr ASSIGN                           ASSIGN ID PLUS ID MULTIPLY ID SEMICOLON $         Match ASSIGN
+$ SEMICOLON Expr                                  ID PLUS ID MULTIPLY ID SEMICOLON $                Expr -> Term ExprP 
+$ SEMICOLON ExprP Term                            ID PLUS ID MULTIPLY ID SEMICOLON $                Term -> Factor TermP 
+$ SEMICOLON ExprP TermP Factor                    ID PLUS ID MULTIPLY ID SEMICOLON $                Factor -> ID 
+$ SEMICOLON ExprP TermP ID                        ID PLUS ID MULTIPLY ID SEMICOLON $                Match ID
+$ SEMICOLON ExprP TermP                           PLUS ID MULTIPLY ID SEMICOLON $                   TermP -> eps 
+$ SEMICOLON ExprP                                 PLUS ID MULTIPLY ID SEMICOLON $                   ExprP -> PLUS Term ExprP 
+$ SEMICOLON ExprP Term PLUS                       PLUS ID MULTIPLY ID SEMICOLON $                   Match PLUS
+$ SEMICOLON ExprP Term                            ID MULTIPLY ID SEMICOLON $                        Term -> Factor TermP 
+$ SEMICOLON ExprP TermP Factor                    ID MULTIPLY ID SEMICOLON $                        Factor -> ID 
+$ SEMICOLON ExprP TermP ID                        ID MULTIPLY ID SEMICOLON $                        Match ID
+$ SEMICOLON ExprP TermP                           MULTIPLY ID SEMICOLON $                           TermP -> MULTIPLY Factor TermP        
+$ SEMICOLON ExprP TermP Factor MULTIPLY           MULTIPLY ID SEMICOLON $                           Match MULTIPLY
+$ SEMICOLON ExprP TermP Factor                    ID SEMICOLON $                                    Factor -> ID
+$ SEMICOLON ExprP TermP ID                        ID SEMICOLON $                                    Match ID
+$ SEMICOLON ExprP TermP                           SEMICOLON $                                       TermP -> eps
+$ SEMICOLON ExprP                                 SEMICOLON $                                       ExprP -> eps
+$ SEMICOLON                                       SEMICOLON $                                       Match SEMICOLON
+$                                                 $                                                 Match $
+
+Parsing Successful
+
+
+Test Case 2: x = (a+b)*c;
+
+-----------------------------------------
+Token Stream :
+ID ASSIGN LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $
+-----------------------------------------
+
+
+Parsing Started....
+Stack                                             Input                                             Action
+----------------------------------------------------------------------------------------------------------------------------------        
+$ Stmt                                            ID ASSIGN LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $ Stmt -> ID ASSIGN Expr SEMICOLON
+$ SEMICOLON Expr ASSIGN ID                        ID ASSIGN LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $ Match ID
+$ SEMICOLON Expr ASSIGN                           ASSIGN LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $ Match ASSIGN
+$ SEMICOLON Expr                                  LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $  Expr -> Term ExprP 
+$ SEMICOLON ExprP Term                            LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $  Term -> Factor TermP
+$ SEMICOLON ExprP TermP Factor                    LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $  Factor -> LPAREN Expr RPAREN
+$ SEMICOLON ExprP TermP RPAREN Expr LPAREN        LPAREN ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $  Match LPAREN
+$ SEMICOLON ExprP TermP RPAREN Expr               ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $         Expr -> Term ExprP
+$ SEMICOLON ExprP TermP RPAREN ExprP Term         ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $         Term -> Factor TermP
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP Factor ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $         Factor -> ID 
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP ID     ID PLUS ID RPAREN MULTIPLY ID SEMICOLON $         Match ID
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP        PLUS ID RPAREN MULTIPLY ID SEMICOLON $            TermP -> eps
+$ SEMICOLON ExprP TermP RPAREN ExprP              PLUS ID RPAREN MULTIPLY ID SEMICOLON $            ExprP -> PLUS Term ExprP
+$ SEMICOLON ExprP TermP RPAREN ExprP Term PLUS    PLUS ID RPAREN MULTIPLY ID SEMICOLON $            Match PLUS
+$ SEMICOLON ExprP TermP RPAREN ExprP Term         ID RPAREN MULTIPLY ID SEMICOLON $                 Term -> Factor TermP
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP Factor ID RPAREN MULTIPLY ID SEMICOLON $                 Factor -> ID
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP ID     ID RPAREN MULTIPLY ID SEMICOLON $                 Match ID
+$ SEMICOLON ExprP TermP RPAREN ExprP TermP        RPAREN MULTIPLY ID SEMICOLON $                    TermP -> eps 
+$ SEMICOLON ExprP TermP RPAREN ExprP              RPAREN MULTIPLY ID SEMICOLON $                    ExprP -> eps
+$ SEMICOLON ExprP TermP RPAREN                    RPAREN MULTIPLY ID SEMICOLON $                    Match RPAREN
+$ SEMICOLON ExprP TermP                           MULTIPLY ID SEMICOLON $                           TermP -> MULTIPLY Factor TermP        
+$ SEMICOLON ExprP TermP Factor MULTIPLY           MULTIPLY ID SEMICOLON $                           Match MULTIPLY
+$ SEMICOLON ExprP TermP Factor                    ID SEMICOLON $                                    Factor -> ID
+$ SEMICOLON ExprP TermP ID                        ID SEMICOLON $                                    Match ID
+$ SEMICOLON ExprP TermP                           SEMICOLON $                                       TermP -> eps
+$ SEMICOLON ExprP                                 SEMICOLON $                                       ExprP -> eps
+$ SEMICOLON                                       SEMICOLON $                                       Match SEMICOLON
+$                                                 $                                                 Match $
+
+Parsing Successful
+
+Test Case 3: a = +b;
+
+-----------------------------------------
+Token Stream :
+ID ASSIGN PLUS ID SEMICOLON $ 
+-----------------------------------------
+
+
+Parsing Started....
+Stack                                             Input                                             Action
+------------------------------------------------------------------------------------------------------------------------------------------------------
+$ Stmt                                            ID ASSIGN PLUS ID SEMICOLON $                     Stmt -> ID ASSIGN Expr SEMICOLON 
+$ SEMICOLON Expr ASSIGN ID                        ID ASSIGN PLUS ID SEMICOLON $                     Match ID
+$ SEMICOLON Expr ASSIGN                           ASSIGN PLUS ID SEMICOLON $                        Match ASSIGN
+
+Syntax Error at token 'PLUS' near position 3 after 'ASSIGN'
